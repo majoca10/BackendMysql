@@ -15,7 +15,9 @@ let init = (app, locals)=>{
     locals.controllers = locals.controllers || {}
     
     locals.controllers.User = {
-        getUserbyid
+        getUserbyid,
+        getUserbyusername,
+        putUsertoken
     }
 
     logger.info("Initialization finished.");
@@ -23,10 +25,22 @@ let init = (app, locals)=>{
 }
 
 
-
 let getUserbyid = (id, req, res)=>{
     return new Promise((resolve, reject)=>{
         models.user.findByPk(id).then(user => resolve(user)).catch(e=>reject(e));
+    });
+}
+
+
+let getUserbyusername = (id, req, res)=>{
+    return new Promise((resolve, reject)=>{
+        models.user.findOne({ where : {"account" : id}}).then(user => resolve(user)).catch(e=>reject(e));
+    });
+}
+
+let putUsertoken = (id, token, req, res)=>{
+    return new Promise((resolve, reject)=>{
+        models.user.update({"token": token}, { where : {"account" : id}}).then(user => resolve(user)).catch(e=>reject(e));
     });
 }
 
