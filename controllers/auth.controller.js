@@ -74,7 +74,7 @@ let signup = (data, req, res)=>{
         if(userexist.length == 0){
 
             let createuser = await db.query(`INSERT INTO mu_online_login.accounts (account, password, email, security_code, register, golden_channel, secured) VALUES ("${data.account}", SHA2(CONCAT("${data.account}", ":", "${data.password}"), 256), "${data.email}", "${data.code}", NOW(), 1500434821, 1);`, { type: QueryTypes.INSERT }).catch((e)=>reject(e));
-            if(createuser && createuser.length > 0 ){
+            if(createuser){
 
                 resolve("creado");
 

@@ -25,7 +25,10 @@ router.post('/forgot-password', async (req, res)=>{
 
     if(usuario != null){
         var token = randtoken.generate(20);
- 
+        let updatetoken =  req.app.locals.controllers.User.putUsertoken(id, token, req. res).catch((e)=>{
+
+            return mainController.returnError(res, 500, 0);
+        });
         var mail = email.sendEmail(usuario.email, token);
 
         if (mail != '0') {
@@ -33,11 +36,9 @@ router.post('/forgot-password', async (req, res)=>{
             var data = {
                 token: token
             }
-    }
-    let updatetoken = await req.app.locals.controllers.User.putUsertoken(id, token, req. res).catch((e)=>{
 
-        return mainController.returnError(res, 500, 0);
-    });
+    }
+
     res.status(200).json("email_send");
 
     }else {
@@ -59,7 +60,7 @@ router.post('/update-password', async (req, res)=>{
 
     if(usertoken != null){
       let username = usertoken.account
-        let updatepass = await req.app.locals.controllers.User.putUserpass(password, username, code, req, res).catch((e)=>{
+        let updatepass = await req.app.locals.controllers.User.putUserpass(password, username, req, res).catch((e)=>{
 
             return mainController.returnError(res, 500, 0);
         });
@@ -67,7 +68,7 @@ router.post('/update-password', async (req, res)=>{
     }
 
 
-    res.status(200).json("update_pass");
+    res.status(200).json("updatepass");
 
 
    

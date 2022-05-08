@@ -19,6 +19,7 @@ let Init = (app, locals) => {
 		password: Sequelize.STRING,
 		email: Sequelize.STRING,
 		register : Sequelize.BIGINT,
+		token : Sequelize.STRING,
 	}, 
 		{ sequelize, modelName: 'accounts' });
 
